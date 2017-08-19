@@ -1,14 +1,9 @@
 package com.example;
 
+import com.example.game.Game;
 import com.example.userInput.UserInputReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.swing.*;
-import java.awt.*;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.Reader;
 
 /**
  * Hello world!

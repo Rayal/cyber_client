@@ -1,19 +1,30 @@
 package com.example.userInput;
 
+import com.example.game.Game;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class UserInputReader {
-    static Logger logger = LoggerFactory.getLogger(UserInputReader.class);
+    private static Logger logger = LoggerFactory.getLogger(UserInputReader.class);
 
-    Scanner scanner;
+    private Scanner scanner;
+    //private RequestSender sender;
+    private Game game;
+
     public UserInputReader()
     {
         logger.info("Creating new UserInputReader.");
         scanner = new Scanner(System.in);
+        //sender = new RequestSender("http://localhost:8080");
+        game = new Game(this);
+    }
+
+    public String getInput() {
+        return scanner.nextLine();
     }
 
     private void parseInput(String input)
@@ -25,6 +36,8 @@ public class UserInputReader {
         if(cmd.equalsIgnoreCase("game"))
         {
             logger.info("New game requested.");
+
+            game.newGame();
         }
         else if (cmd.equalsIgnoreCase("hit"))
         {
@@ -42,6 +55,27 @@ public class UserInputReader {
         else if (cmd.equalsIgnoreCase("fund"))
         {
             logger.info("Increase in funds requested.");
+            try {
+                BigDecimal funds = new BigDecimal(inputArray [1]);
+
+                if (game.addFunds(funds))
+                {
+                    System.out.println("Success.");
+                }
+                else
+                {
+                    System.out.println("Unable to add funds.");
+                }
+            }
+            catch (Exception e)
+            {
+                logger.error(e.toString());
+                System.out.println("Please enter an actual number value. Example: fund 5000");
+            }
+        }
+        else if (cmd.equalsIgnoreCase("quit"))
+        {
+            logger.info("Ending program.");
         }
     }
 
