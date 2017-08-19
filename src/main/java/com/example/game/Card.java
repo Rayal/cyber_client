@@ -5,7 +5,7 @@ public class Card {
     private static final String[] suits = {
             "CLUBS",
             "DIAMONDS",
-            "HEARDS",
+            "HEARTS",
             "SPADES"
     };
 

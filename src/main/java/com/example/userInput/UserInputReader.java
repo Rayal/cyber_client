@@ -20,7 +20,7 @@ public class UserInputReader {
         logger.info("Creating new UserInputReader.");
         scanner = new Scanner(System.in);
         //sender = new RequestSender("http://localhost:8080");
-        game = new Game(this);
+        game = new Game();
     }
 
     public String getInput() {
@@ -42,14 +42,25 @@ public class UserInputReader {
         else if (cmd.equalsIgnoreCase("hit"))
         {
             logger.info("Hit requested.");
+            game.gameAction("hit");
         }
         else if (cmd.equalsIgnoreCase("stand"))
         {
             logger.info("Stand requested.");
+            game.gameAction("stand");
         }
         else if (cmd.equalsIgnoreCase("end"))
         {
             logger.info("End of game requested.");
+            game.gameAction("end");
+            if (game.evaluate())
+            {
+                System.out.println("Player won!");
+            }
+            else
+            {
+                System.out.println("Player lost!");
+            }
         }
 
         else if (cmd.equalsIgnoreCase("fund"))
