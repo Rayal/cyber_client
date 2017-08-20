@@ -23,7 +23,7 @@ public class Game {
     private ArrayList<Integer> playerCards;
     private ArrayList<Integer> dealerCards;
 
-    public Game()
+    public Game(String arg)
     {
         logger.info("Creating new Game Object");
 
@@ -32,7 +32,7 @@ public class Game {
         playerCards = new ArrayList<Integer>();
         dealerCards = new ArrayList<Integer>();
 
-        requestSender = new RequestSender("http://localhost:8080");
+        requestSender = new RequestSender(arg);
 
         RandomIdentifier randomIdentifier = new RandomIdentifier(10);
         JSONObject request = new JSONObject();
@@ -137,6 +137,21 @@ public class Game {
         return true;
     }
 
+    public boolean newGame(BigDecimal bet)
+    {
+        JSONObject request = new JSONObject();
+        try {
+            request.accumulate("username", username);
+            request.accumulate("bet", bet);
+        } catch (Exception e) {
+            logger.error(e.toString());
+        }
+
+        String[] retVal = requestSender.sendRequest("/game", "PUT", request);
+
+        return parseResponse(retVal);
+    }
+
     public boolean newGame()
     {
         JSONObject request = new JSONObject();
@@ -209,12 +224,12 @@ public class Game {
             }
             else {
                 value[0] += i;
+                value[1] += i;
             }
         }
         int bestValue = 0;
         for (int val : value)
         {
-            logger.info(String.valueOf(val));
             if (val <= 21 && val > bestValue)
                 bestValue = val;
         }

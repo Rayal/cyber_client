@@ -12,15 +12,13 @@ public class UserInputReader {
     private static Logger logger = LoggerFactory.getLogger(UserInputReader.class);
 
     private Scanner scanner;
-    //private RequestSender sender;
     private Game game;
 
-    public UserInputReader()
+    public UserInputReader(String arg)
     {
         logger.info("Creating new UserInputReader.");
         scanner = new Scanner(System.in);
-        //sender = new RequestSender("http://localhost:8080");
-        game = new Game();
+        game = new Game(arg);
     }
 
     public String getInput() {
@@ -36,20 +34,27 @@ public class UserInputReader {
         if(cmd.equalsIgnoreCase("game"))
         {
             logger.info("New game requested.");
-
-            game.newGame();
+            try {
+                BigDecimal bet = new BigDecimal(inputArray[1]);
+                game.newGame(bet);
+            }
+            catch (Exception e)
+            {
+                game.newGame();
+                logger.warn(e.toString());
+            }
         }
         else if (cmd.equalsIgnoreCase("hit"))
         {
             logger.info("Hit requested.");
             game.gameAction("hit");
         }
-        else if (cmd.equalsIgnoreCase("stand"))
+        /*else if (cmd.equalsIgnoreCase("stand"))
         {
             logger.info("Stand requested.");
             game.gameAction("stand");
-        }
-        else if (cmd.equalsIgnoreCase("end"))
+        }*/
+        else if (cmd.equalsIgnoreCase("stand") || cmd.equalsIgnoreCase("end"))
         {
             logger.info("End of game requested.");
             game.gameAction("end");
@@ -84,9 +89,14 @@ public class UserInputReader {
                 System.out.println("Please enter an actual number value. Example: fund 5000");
             }
         }
-        else if (cmd.equalsIgnoreCase("quit"))
+        /*else if (cmd.equalsIgnoreCase("quit"))
         {
             logger.info("Ending program.");
+        }*/
+        else
+        {
+            System.out.println("Input faulty. Possible commands: game, hit, stand, fund, end");
+
         }
     }
 

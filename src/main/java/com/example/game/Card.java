@@ -35,7 +35,7 @@ public class Card {
         }
         for (int i = 1; i <= 4; i++)
         {
-            if (card < deckSize * i)
+            if (card <= deckSize * i)
             {
                 value += " " + suits[i - 1];
                 break;
