@@ -188,6 +188,27 @@ public class Game {
         return false;
     }
 
+    public boolean withdrawFunds(BigDecimal funds)
+    {
+        JSONObject request = new JSONObject();
+
+        try {
+            request.accumulate("username", username);
+            request.accumulate("withdraw", funds);
+        } catch (Exception e) {
+            logger.error(e.toString());
+        }
+        String[] retVal = requestSender.sendRequest("/funds", "POST", request);
+
+        if (Integer.parseInt(retVal[0]) == HttpStatus.SC_OK)
+        {
+            return true;
+        }
+        String problem = retVal[1].split(":")[1].replace("}", "");
+        System.out.println(String.format("Message from the server: %s", problem));
+        return false;
+    }
+
     public boolean gameAction(String gameAction)
     {
         JSONObject request = new JSONObject();

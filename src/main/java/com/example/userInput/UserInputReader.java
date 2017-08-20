@@ -89,6 +89,28 @@ public class UserInputReader {
                 System.out.println("Please enter an actual number value. Example: fund 5000");
             }
         }
+
+        else if (cmd.equalsIgnoreCase("withdraw"))
+        {
+            logger.info("Increase in funds requested.");
+            try {
+                BigDecimal funds = new BigDecimal(inputArray [1]);
+
+                if (game.withdrawFunds(funds))
+                {
+                    System.out.println("Success.");
+                }
+                else
+                {
+                    System.out.println("Unable to withdraw funds.");
+                }
+            }
+            catch (Exception e)
+            {
+                logger.error(e.toString());
+                System.out.println("Please enter an actual number value. Example: withdraw 5000");
+            }
+        }
         /*else if (cmd.equalsIgnoreCase("quit"))
         {
             logger.info("Ending program.");
